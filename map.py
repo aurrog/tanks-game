@@ -1,3 +1,5 @@
+import pygame
+
 from settings import *
 
 text_map = ['0000000000000',
@@ -14,8 +16,10 @@ text_map = ['0000000000000',
             '0000011100000',
             '1000010100001']
 
+collision_walls = []
 world_map = set()
 for j, row in enumerate(text_map):
     for i, char in enumerate(row):
         if char == '1':
+            collision_walls.append(pygame.Rect(i * TILE, j * TILE, TILE, TILE))
             world_map.add((i * TILE, j * TILE))

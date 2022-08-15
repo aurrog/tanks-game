@@ -5,9 +5,9 @@ from map import world_map
 
 
 pygame.init()
-sc = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
-player = Player()
+player = Player(screen)
 
 while True:
     for event in pygame.event.get():
@@ -15,12 +15,11 @@ while True:
             exit()
 
     player.movement()
-    sc.fill(BLACK)
+    screen.fill(BLACK)
 
-    pygame.draw.circle(sc, GREEN, player.pos, 12)
-
+    player.draw_player()
     for x, y in world_map:
-        pygame.draw.rect(sc, DARKGRAY, (x, y, TILE, TILE))
+        pygame.draw.rect(screen, BRICK_COLOR, (x, y, TILE, TILE))
 
     pygame.display.flip()
     clock.tick(FPS)
