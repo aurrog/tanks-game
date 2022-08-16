@@ -1,6 +1,18 @@
 import pygame
-
 from settings import *
+from pygame.sprite import Sprite
+
+
+class Wall(Sprite):
+    def __init__(self, screen, coordination):
+        super().__init__()
+        self.screen = screen
+        self.coordination = coordination
+        self.rect = pygame.Rect(coordination[0], coordination[1], TILE, TILE)
+
+    def draw_walls(self):
+        pygame.draw.rect(self.screen, BRICK_COLOR, self.coordination)
+
 
 text_map = ['0000000000000',
             '0101011101010',

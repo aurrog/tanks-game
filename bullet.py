@@ -10,7 +10,7 @@ class Bullet(Sprite):
         self.rect = pygame.Rect(player.x, player.y, bullet_width, bullet_height)
         self.rect.top = player.rect.top
 
-        self.y_b =float(self.rect.y)
+        self.y_b = float(self.rect.y)
 
     def update(self):
         self.y_b -= bullet_speed
