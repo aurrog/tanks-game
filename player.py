@@ -1,23 +1,19 @@
 from settings import *
 import pygame
 from map import collision_walls
+from bullet import Bullet
 
 
 class Player:
-    def __init__(self, screen):
+    def __init__(self, screen, bullets):
         self.screen = screen
         self.x, self.y = player_pos
-        self.side = 30
+        print(self.x, self.y)
+        self.side = 25
         self.rect = pygame.Rect(*player_pos, self.side, self.side)
-        self.player_surf = pygame.image.load('images/pixil-frame-0 (8).png').convert_alpha()
-        self.player_surf = pygame.transform.scale(self.player_surf, (self.player_surf.get_width()*1.5, self.player_surf.get_width()*1.2))
-        self.player_rect = self.player_surf.get_rect(center=player_pos)
-
-        self.player_up = self.player_surf
-        self.player_down = pygame.transform.flip(self.player_surf, 0, 1)
-        self.player_left = pygame.transform.rotate(self.player_surf, 90)
-        self.player_right = pygame.transform.rotate(self.player_surf, -90)
-        self.player_now = self.player_up
+        self.player_turn = 'up'
+        print(self.rect)
+        self.bullets = bullets
 
     @property
     def pos(self):
@@ -27,6 +23,7 @@ class Player:
         next_rect = self.rect.copy()
         next_rect.move_ip(dx, dy)
         hit_indexes = next_rect.collidelistall(collision_walls)
+        print(hit_indexes)
 
         if len(hit_indexes):
             delta_x, delta_y = 0, 0
@@ -50,40 +47,46 @@ class Player:
         self.x += dx
         self.y += dy
 
-    def movement(self):
-        self.key_move()
+    def movement(self, screen, player):
+        self.key_move(screen, player)
         self.rect.center = self.x, self.y
 
-    def key_move(self):
+    def key_move(self, screen, player):
         keys = pygame.key.get_pressed()
         # self.x += player_speed
         # if self.x > 770:
         #     self.x = 770
 
         if keys[pygame.K_w]:
-            self.player_now = self.player_up
+            self.player_turn = 'up'
             if self.y <= 15:
                 self.y = 15
             else:
                 self.detect_collisions(0, self.y - self.y - player_speed)
         elif keys[pygame.K_s]:
-            self.player_now = self.player_down
+            self.player_turn = 'down'
             if self.y >= 765:
                 self.y = 765
             else:
                 self.detect_collisions(0, self.y - self.y + player_speed)
         elif keys[pygame.K_a]:
-            self.player_now = self.player_left
+            self.player_turn = 'left'
             if self.x <= 15:
                 self.x = 15
             else:
                 self.detect_collisions(self.x - self.x - player_speed, 0)
         elif keys[pygame.K_d]:
-            self.player_now = self.player_right
+            self.player_turn = 'right'
             if self.x >= 765:
                 self.x = 765
             else:
                 self.detect_collisions(self.x - self.x + player_speed, 0)
+        if keys[pygame.K_SPACE]:
+            # if bullets_len != 2:
+            new_bullet = Bullet(screen, player)
+            self.bullets.add(new_bullet)
 
-    def draw_player(self):
-        self.screen.blit(self.player_now, self.pos)
+    def draw_bullets(self):
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+

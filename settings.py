@@ -8,7 +8,7 @@ TILE = WIDTH // 13
 # player settings
 player_pos = (5 * TILE - TILE // 2, 13 * TILE - TILE // 2)
 player_angle = 0
-player_speed = 4
+player_speed = 2
 
 # colors
 WHITE = (255, 255, 255)
@@ -23,4 +23,4 @@ BRICK_COLOR = (183, 65, 14)
 # bullet settings
 bullet_speed = 5
 bullet_width = 2
-bullet_height = 6
+bullet_height = 4
