@@ -93,7 +93,6 @@ class Player:
                 for i, char in enumerate(row):
                     if char == '1':
                         wp.collision_walls.append(pygame.Rect(i * TILE, j * TILE, TILE, TILE))
-                        print(wp.collision_walls)
                         wp.world_map.add((i * TILE, j * TILE))
 
     def draw_bullets(self, walls):
@@ -102,6 +101,7 @@ class Player:
             bullet.draw_bullet()
 
     def return_wall_row(self, bullet_x, bullet_y, tile=60):
+        print(self.x, self.y)
         row_num = int(abs(bullet_y / tile - 0.01))
         pos_num = int(abs(bullet_x / tile - 0.01))
         wp.text_map[row_num] = wp.text_map[row_num][:pos_num] + '0' + wp.text_map[row_num][pos_num + 1:]

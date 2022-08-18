@@ -27,5 +27,11 @@ while True:
     clock.tick(FPS)
 
     for bullet in bullets.copy():
-        if bullet.rect.bottom <= 0:
+        if bullet.rect.y <= 0:
+            bullets.remove(bullet)
+        elif bullet.rect.y >= WIDTH:
+            bullets.remove(bullet)
+        elif bullet.rect.x <= 0:
+            bullets.remove(bullet)
+        elif bullet.rect.x >= WIDTH:
             bullets.remove(bullet)
